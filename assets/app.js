@@ -1,3 +1,5 @@
+import { registerVueControllerComponents } from '@symfony/ux-vue';
+import './bootstrap.js';
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -11,3 +13,4 @@ import 'bootstrap';
 import bsCustomFileInput from 'bs-custom-file-input';
 
 +bsCustomFileInput.init();
+registerVueControllerComponents(require.context('./vue/controllers', true, /\.vue$/));
