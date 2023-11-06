@@ -3,18 +3,40 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+<div class="container-fluid">
     <h1>Inscription</h1>
 
     {{ form_errors(registrationForm) }}
 
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email) }}
+
+        {{ form_row(registrationForm.name,{
+            label: 'Nom'
+        })}}
+        {{ form_row(registrationForm.firstname,{
+            label: 'Prénom'
+        })}}
         {{ form_row(registrationForm.plainPassword, {
             label: 'Mot de passe'
         }) }}
-
-        <button type="submit" class="btn">S'inscrire</button>
-    {{ form_end(registrationForm) }}
+        {{ form_row(registrationForm.phone_number, {
+            label: 'Numéro de téléphone'
+        })}}
+        {{ form_row(registrationForm.address, {
+            label: 'Adresse'
+        })}}
+        {{ form_row(registrationForm.city, {
+            label: 'Ville'
+        })}}
+        {{ form_row(registrationForm.postal_code, {
+            label: 'Code postal'
+        })}}
+        
+        <button class="btn btn-primary d-flex" type="submit" class="btn">S'inscrire</button>
+    {{ form_end(registrationForm)}}
 
     <p>Vous avez déjà un compte?<a/> <a href='/connexion'> Connectez-vous !<a/>
+</div
+
 {% endblock %}
