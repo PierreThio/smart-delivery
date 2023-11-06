@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -47,6 +49,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?int $postal_code = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Package::class)]
+    private Collection $packages;
+
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Locker::class)]
+    private Collection $lockers;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?RelayCenter $relayCenter = null;
+
+    #[ORM\ManyToMany(targetEntity: Notification::class, mappedBy: 'users')]
+    private Collection $notifications;
+
+    public function __construct()
+    {
+        $this->packages = new ArrayCollection();
+        $this->lockers = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -193,4 +214,103 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     //     $user = $this->$security->getUser();
     //     return $user;
     // }
+
+    /**
+     * @return Collection<int, Package>
+     */
+    public function getPackages(): Collection
+    {
+        return $this->packages;
+    }
+
+    public function addPackage(Package $package): static
+    {
+        if (!$this->packages->contains($package)) {
+            $this->packages->add($package);
+            $package->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePackage(Package $package): static
+    {
+        if ($this->packages->removeElement($package)) {
+            // set the owning side to null (unless already changed)
+            if ($package->getUser() === $this) {
+                $package->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Locker>
+     */
+    public function getLockers(): Collection
+    {
+        return $this->lockers;
+    }
+
+    public function addLocker(Locker $locker): static
+    {
+        if (!$this->lockers->contains($locker)) {
+            $this->lockers->add($locker);
+            $locker->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocker(Locker $locker): static
+    {
+        if ($this->lockers->removeElement($locker)) {
+            // set the owning side to null (unless already changed)
+            if ($locker->getUsers() === $this) {
+                $locker->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRelayCenter(): ?RelayCenter
+    {
+        return $this->relayCenter;
+    }
+
+    public function setRelayCenter(?RelayCenter $relayCenter): static
+    {
+        $this->relayCenter = $relayCenter;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): static
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): static
+    {
+        if ($this->notifications->removeElement($notification)) {
+            $notification->removeUser($this);
+        }
+
+        return $this;
+    }
 }

@@ -16,7 +16,7 @@
             </ul>
             <ul class="navbar-nav ml-auto" v-if="user">
                 <li class="nav-item">
-                    <a class="nav-link" href="/tableau-de-bord">Tableau de bord</a>
+                    <a class="nav-link" href="/dashboard">Tableau de bord</a>
                 </li>
             </ul>
         </div>
@@ -49,7 +49,6 @@ export default {
             }
         }
     }
-    
 }
 </script>
 <style>
