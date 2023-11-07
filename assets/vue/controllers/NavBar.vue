@@ -8,6 +8,9 @@
             <!-- Boutons de connexion et d'inscription à droite -->
             <ul class="navbar-nav ml-auto" v-if="user == null">
                 <li class="nav-item">
+                    <a class="nav-link" href="/points-relais">Points Relais</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/connexion">Connexion</a>
                 </li>
                 <li class="nav-item">
@@ -15,6 +18,9 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto" v-if="user">
+                <li class="nav-item">
+                    <a class="nav-link" href="/points-relais">Points Relais</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/dashboard">Tableau de bord</a>
                 </li>
