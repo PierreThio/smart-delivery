@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
         <div class="container">
             <!-- Logo à gauche -->
             <a class="navbar-brand d-flex align-items-center justify-content-center" href="/">
@@ -36,12 +36,10 @@ export default {
         }
     },
     mounted(){
-        // fetch('/api/userIsLoggedIn')
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         this.user = data;
-        //     })
         this.fetchData();
+        setInterval(() => {
+            this.fetchData();
+        }, 60000);
     },
     methods:{
         async fetchData(){
@@ -50,8 +48,8 @@ export default {
                 const data = await response.json();
                 this.user = data;
             }
-            catch{
-                console.error("Erreur lors de la récupération des données: ", err);
+            catch(error){
+                console.error("Erreur lors de la récupération des données: ", error);
             }
         }
     }

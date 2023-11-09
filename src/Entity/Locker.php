@@ -31,10 +31,10 @@ class Locker
     private Collection $packages;
 
     #[ORM\ManyToOne(inversedBy: 'lockers')]
-    private ?User $users = null;
+    private ?RelayCenter $relayCenter = null;
 
     #[ORM\ManyToOne(inversedBy: 'lockers')]
-    private ?RelayCenter $relayCenter = null;
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -124,18 +124,6 @@ class Locker
         return $this;
     }
 
-    public function getUsers(): ?User
-    {
-        return $this->users;
-    }
-
-    public function setUsers(?User $users): static
-    {
-        $this->users = $users;
-
-        return $this;
-    }
-
     public function getRelayCenter(): ?RelayCenter
     {
         return $this->relayCenter;
@@ -144,6 +132,18 @@ class Locker
     public function setRelayCenter(?RelayCenter $relayCenter): static
     {
         $this->relayCenter = $relayCenter;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

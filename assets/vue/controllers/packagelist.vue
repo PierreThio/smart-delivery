@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-center flex-column align-items-center mt-4">
+    <div class="d-flex justify-content-center flex-column align-items-center">
         <h1 class="text-center">Liste des colis</h1>
         <table class="table-bordered col-9">
             <thead>
@@ -31,12 +31,19 @@ export default {
     },
     mounted(){
         this.fetchData();
+        setInterval(() => {
+            this.fetchData();
+        }, 60000);
     },
     methods:{
         async fetchData(){
-            const response = await fetch('/api/package');
-            const data = await response.json();
-            this.packages = data;
+            try {
+                const response = await fetch('/api/package');
+                const data = await response.json();
+                this.packages = data;                
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données: ", error);
+            }
         }
     }
 }

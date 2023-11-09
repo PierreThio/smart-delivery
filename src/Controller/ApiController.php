@@ -29,11 +29,12 @@ class ApiController extends AbstractController
     }
 
     #[Route('/api/userIsLoggedIn', name: 'app_api_user_is_logged_in')]
-    public function userIsLoggedIn(): Response
+    public function userIsLoggedIn(Request $request): Response
     {
-        $user = $this->security->getUser();
-
-        return $this->json($user);
+        $var = $this->security->getUser();
+        $response = new Utils;
+        $tab = ["lockers","packages", "relayCenter", "notifications"];
+        return $response->GetJsonResponse($request, $var,$tab);
     }
 
     #[Route('/api/package', name: 'app_api_package')]

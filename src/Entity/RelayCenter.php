@@ -30,6 +30,12 @@ class RelayCenter
     #[ORM\OneToMany(mappedBy: 'relayCenter', targetEntity: User::class)]
     private Collection $users;
 
+    #[ORM\Column]
+    private ?float $longitude = null;
+
+    #[ORM\Column]
+    private ?float $latitude = null;
+
     public function __construct()
     {
         $this->lockers = new ArrayCollection();
@@ -133,6 +139,30 @@ class RelayCenter
                 $user->setRelayCenter(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(float $longitude): static
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(float $latitude): static
+    {
+        $this->latitude = $latitude;
 
         return $this;
     }

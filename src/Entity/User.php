@@ -37,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $firstname = null;
-
+    
     #[ORM\Column]
     private ?int $phone_number = null;
 
@@ -53,20 +53,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Package::class)]
     private Collection $packages;
 
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Locker::class)]
-    private Collection $lockers;
-
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?RelayCenter $relayCenter = null;
 
     #[ORM\ManyToMany(targetEntity: Notification::class, mappedBy: 'users')]
     private Collection $notifications;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Locker::class)]
+    private Collection $lockers;
+
     public function __construct()
     {
         $this->packages = new ArrayCollection();
-        $this->lockers = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->lockers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -245,36 +245,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Locker>
-     */
-    public function getLockers(): Collection
-    {
-        return $this->lockers;
-    }
-
-    public function addLocker(Locker $locker): static
-    {
-        if (!$this->lockers->contains($locker)) {
-            $this->lockers->add($locker);
-            $locker->setUsers($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLocker(Locker $locker): static
-    {
-        if ($this->lockers->removeElement($locker)) {
-            // set the owning side to null (unless already changed)
-            if ($locker->getUsers() === $this) {
-                $locker->setUsers(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getRelayCenter(): ?RelayCenter
     {
         return $this->relayCenter;
@@ -309,6 +279,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->notifications->removeElement($notification)) {
             $notification->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Locker>
+     */
+    public function getLockers(): Collection
+    {
+        return $this->lockers;
+    }
+
+    public function addLocker(Locker $locker): static
+    {
+        if (!$this->lockers->contains($locker)) {
+            $this->lockers->add($locker);
+            $locker->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocker(Locker $locker): static
+    {
+        if ($this->lockers->removeElement($locker)) {
+            // set the owning side to null (unless already changed)
+            if ($locker->getUser() === $this) {
+                $locker->setUser(null);
+            }
         }
 
         return $this;
