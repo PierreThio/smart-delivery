@@ -1,27 +1,28 @@
 <template>
     <div class="d-flex justify-content-center flex-column align-items-center">
         <h1 class="text-center">Liste des points relais</h1>
-        <table class="table-bordered col-9">
-            <thead>
-                <tr>
-                    <th>Ville</th>
-                    <th>Adresse</th>
-                    <th>Code postal</th>
-                    <th>Nombre de casier</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="relayCenter in relayCenters">
-                    <th>{{ relayCenter.city }}</th>
-                    <th>{{ relayCenter.address }}</th>
-                    <th>{{ relayCenter.postalCode }}</th>
-                    <th>{{ count(relayCenter.lockers) }}</th>
-                    <th class="d-flex justify-content-around"><button @click="deleteRelayCenter(relayCenter)" type="button" class="btn btn-danger">Supprimer</button><a href="{{ path('app_relay_center_update', {'relayCenter': relayCenter.id})|escape('js') }}" @click="updateRelayCenter(relayCenter)" type="button" class="btn btn-warning">Modifier</a></th>
-                </tr>
-            </tbody>
-        </table>
+        <div class="overflow-auto d-flex w-100 justify-content-center" style="height: 250px;">
+            <table class="table-bordered col-9 overflow-auto">
+                <thead>
+                    <tr>
+                        <th>Ville</th>
+                        <th>Adresse</th>
+                        <th>Code postal</th>
+                        <th>Nombre de casier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="relayCenter in relayCenters">
+                        <th>{{ relayCenter.city }}</th>
+                        <th>{{ relayCenter.address }}</th>
+                        <th>{{ relayCenter.postalCode }}</th>
+                        <th>{{ count(relayCenter.lockers) }}</th>
+                        <th class="d-flex justify-content-around"><button @click="deleteRelayCenter(relayCenter)" type="button" class="btn btn-danger">Supprimer</button><button @click="updateRelayCenter(relayCenter)" type="button" class="btn btn-warning">Modifier</button></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
 </template>
 <script>
 export default {
@@ -57,7 +58,9 @@ export default {
         },
         async updateRelayCenter(relayCenter){
             try {
-                const reponse = await fetch(`/points-relais/${relayCenter.id}/update`);                
+                const reponse = await fetch(`/points-relais/${relayCenter.id}/update`);
+                const route = `/points-relais/${relayCenter.id}/update`;
+                window.location.href = route;
             } catch (error) {
                 console.error("Erreur lors de la mise à jour des données: ", error);
             }

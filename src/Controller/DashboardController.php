@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\RelayCenter;
+use App\Entity\User;
 use App\Form\RelayCenterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,9 +48,19 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute('app_dashboard');
         }
 
-        return $this->render('dashboard/relay_center/index.html.twig', [
+        return $this->render('dashboard/relay_center/add.html.twig', [
             'controller_name' => 'DashboardController',
             'relayCenterForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/dashboard/user/{user}', name: 'app_dashboard_user')]
+    public function userInformation(User $user): Response
+    {
+
+        return $this->render('dashboard/user/index.html.twig', [
+            'controller_name' => 'DashboardController',
+            'user' => $user,
         ]);
     }
 }

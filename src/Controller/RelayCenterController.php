@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Locker;
 use App\Entity\RelayCenter;
+use App\Form\RelayCenterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -51,13 +52,13 @@ class RelayCenterController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            // $entityManager->persist($relayCenter);
-            // $entityManager->flush();
+            $entityManager->persist($relayCenter);
+            $entityManager->flush();
     
-            // return $this->redirectToRoute('app_dashboard');
+            return $this->redirectToRoute('app_dashboard');
         }
 
-        return $this->render('dashboard/relay_center/index.html.twig', [
+        return $this->render('dashboard/relay_center/update.html.twig', [
             'controller_name' => 'DashboardController',
             'relayCenterForm' => $form->createView(),
         ]);

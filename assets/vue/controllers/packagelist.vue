@@ -1,24 +1,26 @@
 <template>
     <div class="d-flex justify-content-center flex-column align-items-center">
         <h1 class="text-center">Liste des colis</h1>
-        <table class="table-bordered col-9">
-            <thead>
-                <tr>
-                    <th>Volume</th>
-                    <th>Poids</th>
-                    <th>Départ</th>
-                    <th>Acheteur</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="p in packages">
-                    <th>{{ p.volume }}m²</th>
-                    <th>{{ p.weight }}kg</th>
-                    <th>{{ p.city }} {{ p.address }} {{ p.postalCode }}</th>
-                    <th>{{ p.user.name }} {{ p.user.firstname }}</th>
-                </tr>
-            </tbody>
-        </table>
+        <div class="overflow-auto d-flex w-100 justify-content-center" style="height: 250px;">
+            <table class="table-bordered col-9">
+                <thead>
+                    <tr>
+                        <th>Volume</th>
+                        <th>Poids</th>
+                        <th>Départ</th>
+                        <th>Acheteur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="p in packages">
+                        <th>{{ p.volume }}m²</th>
+                        <th>{{ p.weight }}kg</th>
+                        <th>{{ p.city }} {{ p.address }} {{ p.postalCode }}</th>
+                        <th><a class="text-decoration-underline" @click="userInformation(p.user)">{{ p.user.name }} {{ p.user.firstname }}</a></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </template>
@@ -44,7 +46,17 @@ export default {
             } catch (error) {
                 console.error("Erreur lors de la récupération des données: ", error);
             }
-        }
+        },
+        async userInformation(user){
+            try {
+                const reponse = await fetch(`/dashboard/user/${user.id}`);
+                const route = `/dashboard/user/${user.id}`;
+                window.location.href = route;
+            } catch (error) {
+                console.error("Erreur lors de la mise à jour des données: ", error);
+            }
+            this.fetchData();
+        },
     }
 }
 </script>

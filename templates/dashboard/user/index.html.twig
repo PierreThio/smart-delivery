@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <div class="ms-5">
+        <label class="fw-bold">Nom:</label>
+        <p>{{user.name}}</p>
+
+        <label class="fw-bold">Prénom:</label>
+        <p>{{user.firstname}}</p>
+
+        <label class="fw-bold">Email:</label>
+        <p>{{user.email}}</p>
+
+        <label class="fw-bold">Numéro de téléphone:</label>
+        <p>{{user.phoneNumber}}</p>
+
+        <label class="fw-bold">Adresse:</label>
+        <p>{{user.address}}</p>
+
+        <label class="fw-bold">Ville:</label>
+        <p>{{user.city}}</p>
+
+        <label class="fw-bold">Code postal:</label>
+        <p>{{user.postalCode}}</p>
+
+        <label class="fw-bold">Colis:</label>
+        {% for package in user.packages %}
+            <ul>
+                <li class="fw-bold">{{package.id}}</li>
+            </ul>
+        {% endfor %}
+
+        {# <label>Centre relais par défauts:</label> #}
+        {# <p>{{user.relayCenter.id}}</p> #}
+
+        <label class="fw-bold">Casier réservés:</label>
+        {% for locker in user.lockers %}
+        <ul>
+            <li>{{locker.id}}</li>
+        </ul>
+        {% endfor %}
+    </div>
+{% endblock %}

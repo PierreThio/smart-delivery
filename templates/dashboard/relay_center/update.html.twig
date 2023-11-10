@@ -1,0 +1,10 @@
+{% extends '/dashboard/relay_center/form.html.twig' %}
+
+{% block h1 %}Modification d'un point Relais{% endblock %}
+
+{% block submit %}
+{{ form_row(relayCenterForm.submit, {
+    label: "Modifier un nouveau point relais",
+    attr: {'class': 'w-100 mt-4 btn btn-primary'}
+})}}
+{% endblock %}

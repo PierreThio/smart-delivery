@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="d-flex justify-content-center flex-column align-items-center">
-    <h1>Ajout d'un nouveau point Relais</h1>
+    <h1>{% block h1 %}{% endblock %}</h1>
 
     {{ form_errors(relayCenterForm) }}
 
@@ -33,11 +33,9 @@
             attr: {'class': 'w-100'}
         })}}
     
-
-        {{ form_row(relayCenterForm.submit, {
-            label: 'Ajouter un nouveau point relais',
-            attr: {'class': 'w-100 mt-4 btn btn-primary'}
-        })}}
+    {% block submit %}
+    
+    {% endblock %}
     </div>
 
     {{ form_end(relayCenterForm)}}

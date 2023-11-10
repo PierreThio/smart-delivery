@@ -9,6 +9,9 @@
 </style>
 
 <div {{vue_component('packagelist')}}></div>
-<div {{vue_component('relayCenterList')}}></div>
-<a href={{path('app_dashboard_add_relay_center')}} class="btn btn-primary">Ajouter un centre relais</a>
+<div class="mt-4" {{vue_component('relayCenterList')}}></div>
+<div class="d-flex justify-content-center mt-4">
+    <a href={{path('app_dashboard_add_relay_center')}} class="btn btn-primary">Ajouter un centre relais</a>
+</div>
+
 {% endblock %}
