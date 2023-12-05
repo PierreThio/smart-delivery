@@ -25,15 +25,14 @@ class Localisation
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $timestamp = null;
 
-    #[ORM\OneToOne(inversedBy: 'localisation', cascade: ['persist', 'remove'])]
-    private ?Package $package = null;
+    #[ORM\ManyToOne(inversedBy: 'localisations')]
+    private ?Step $step = null;
 
-    #[ORM\ManyToMany(targetEntity: Step::class, mappedBy: 'localisations')]
-    private Collection $steps;
+    #[ORM\ManyToOne(inversedBy: 'localisations')]
+    private ?Package $package = null;
 
     public function __construct()
     {
-        $this->steps = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,6 +76,18 @@ class Localisation
         return $this;
     }
 
+    public function getStep(): ?Step
+    {
+        return $this->step;
+    }
+
+    public function setStep(?Step $step): static
+    {
+        $this->step = $step;
+
+        return $this;
+    }
+
     public function getPackage(): ?Package
     {
         return $this->package;
@@ -85,33 +96,6 @@ class Localisation
     public function setPackage(?Package $package): static
     {
         $this->package = $package;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Step>
-     */
-    public function getSteps(): Collection
-    {
-        return $this->steps;
-    }
-
-    public function addStep(Step $step): static
-    {
-        if (!$this->steps->contains($step)) {
-            $this->steps->add($step);
-            $step->addLocalisation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStep(Step $step): static
-    {
-        if ($this->steps->removeElement($step)) {
-            $step->removeLocalisation($this);
-        }
 
         return $this;
     }

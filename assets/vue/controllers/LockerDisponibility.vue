@@ -7,7 +7,7 @@
                     <tr v-if="count(relayCenter.lockers) == 0"><p>Aucun casier pour ce point relais</p></tr>
                     <tr v-for="locker in relayCenter.lockers">
                         <td>{{ locker.lockerNumber }}</td>
-                        <td class="d-flex justify-content-between" v-if="locker.status == 'Available'"><span class="badge bg-success">Disponible</span><button v-if="user" @click="updateLocker(locker)" type="button" class="btn btn-primary">Réservé</button></td>
+                        <td class="d-flex justify-content-between" v-if="locker.status == 'Available'"><span class="badge bg-success">Disponible</span><span>{{locker.availableVolume}}</span><button v-if="user" @click="updateLocker(locker)" type="button" class="btn btn-primary">Réservé</button></td>
                         <td v-if="locker.status == 'Unavailable'"><span class="badge bg-danger">Indisponible</span></td>
                     </tr>
             </table>
@@ -20,6 +20,9 @@ export default {
         return{
             relayCenters: {},
             user:{},
+            locker:{
+                getAvailableVolume:'',
+            }
         }
     },
     mounted(){
@@ -48,11 +51,20 @@ export default {
         },
         async updateLocker(locker){
             try {
-                const reponse = await fetch(`/points-relais/locker/${locker.id}/update`);                
+                const response = await fetch(`/points-relais/locker/${locker.id}/update`);                
             } catch (error) {
                 console.error("Erreur lors de la mise à jour des données: ", error);
             }
             this.fetchData();
+        },
+        async getAvailableVolume(locker){
+            try {
+                const response = await fetch(`/api/locker/${locker.id}/available-volume`);
+                const data = await response.json();
+                locker = (locker, 'availableVolume', data);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données: ", error);
+            }
         }
     }
 }

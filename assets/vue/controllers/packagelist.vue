@@ -7,7 +7,7 @@
                     <tr>
                         <th>Volume</th>
                         <th>Poids</th>
-                        <th>Départ</th>
+                        <th>Destination</th>
                         <th>Acheteur</th>
                     </tr>
                 </thead>
@@ -15,7 +15,8 @@
                     <tr v-for="p in packages">
                         <th>{{ p.volume }}m²</th>
                         <th>{{ p.weight }}kg</th>
-                        <th>{{ p.city }} {{ p.address }} {{ p.postalCode }}</th>
+                        <th v-if="p.locker == null">{{ p.user.city }} {{ p.user.address }} {{ p.user.postalCode }}</th>
+                        <th v-if="p.locker">{{ p.locker.relayCenter.city }} {{ p.locker.relayCenter.address }} {{ p.locker.relayCenter.postalCode }}</th>
                         <th><a class="text-decoration-underline" @click="userInformation(p.user)">{{ p.user.name }} {{ p.user.firstname }}</a></th>
                     </tr>
                 </tbody>

@@ -40,9 +40,7 @@ class RegistrationFormType extends AbstractType
             ->add('phone_number', TelType::class)
             ->add('address')
             ->add('city')
-            ->add('postal_code', NumberType::class)
-
-        ;
+            ->add('postal_code', NumberType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

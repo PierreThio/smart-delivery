@@ -32,12 +32,12 @@ class RelayCenterController extends AbstractController
     #[Route('/points-relais/locker/{locker}/update', name: 'app_relay_center_locker_update')]
     public function lockerUpdate(Locker $locker, EntityManagerInterface $entityManager)
     {
-        $user = $this->security->getUser();
-        $locker->setStatus('Unavailable');
-        $locker->setUser($this->getUser());
-        $user->addLocker($locker);
+            $user = $this->security->getUser();
+            $locker->setStatus('Unavailable');
+            $locker->setUser($this->getUser());
+            $user->addLocker($locker);
 
-        $entityManager->flush();
+            $entityManager->flush();
     }
     #[Route('/points-relais/{relayCenter}/delete', name: 'app_relay_center_delete')]
     public function deleteRelayCenter(RelayCenter $relayCenter, EntityManagerInterface $entityManager)

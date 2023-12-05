@@ -19,10 +19,16 @@
             </ul>
             <ul class="navbar-nav ml-auto" v-if="user">
                 <li class="nav-item">
+                    <a class="nav-link" href="/colis">Colis</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/points-relais">Points Relais</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/dashboard">Tableau de bord</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Déconnexion</a>
                 </li>
             </ul>
         </div>

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout d'un colis{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-center flex-column align-items-center">
+  <h1>{% block h1 %}Ajour d'un colis{% endblock %}</h1>
+  <h2>Où le colis doit-il être envoyé?</h2>
+  <div>
+    <a href="/colis/relayCenter" class="btn btn-primary">Point relais</a>
+    <a href="/colis/home" class="btn btn-primary">À domicile</a>
+  </div>
+</div>
+{% endblock %}

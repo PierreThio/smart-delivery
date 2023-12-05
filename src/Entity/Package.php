@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PackageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PackageRepository::class)]
@@ -16,15 +18,6 @@ class Package
     #[ORM\Column]
     private ?int $weight = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $city = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $address = null;
-
-    #[ORM\Column]
-    private ?int $postal_code = null;
-
     #[ORM\Column]
     private ?int $volume = null;
 
@@ -34,8 +27,16 @@ class Package
     #[ORM\ManyToOne(inversedBy: 'packages')]
     private ?Locker $locker = null;
 
-    #[ORM\OneToOne(mappedBy: 'package', cascade: ['persist', 'remove'])]
-    private ?Localisation $localisation = null;
+    #[ORM\Column(length: 255)]
+    private ?string $tracking_number = null;
+
+    #[ORM\OneToMany(mappedBy: 'package', targetEntity: Localisation::class)]
+    private Collection $localisations;
+
+    public function __construct()
+    {
+        $this->localisations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -50,42 +51,6 @@ class Package
     public function setWeight(int $weight): static
     {
         $this->weight = $weight;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): static
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(string $address): static
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    public function getPostalCode(): ?int
-    {
-        return $this->postal_code;
-    }
-
-    public function setPostalCode(int $postal_code): static
-    {
-        $this->postal_code = $postal_code;
 
         return $this;
     }
@@ -126,24 +91,44 @@ class Package
         return $this;
     }
 
-    public function getLocalisation(): ?Localisation
+    public function getTrackingNumber(): ?string
     {
-        return $this->localisation;
+        return $this->tracking_number;
     }
 
-    public function setLocalisation(?Localisation $localisation): static
+    public function setTrackingNumber(string $tracking_number): static
     {
-        // unset the owning side of the relation if necessary
-        if ($localisation === null && $this->localisation !== null) {
-            $this->localisation->setPackage(null);
-        }
+        $this->tracking_number = $tracking_number;
 
-        // set the owning side of the relation if necessary
-        if ($localisation !== null && $localisation->getPackage() !== $this) {
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Localisation>
+     */
+    public function getLocalisations(): Collection
+    {
+        return $this->localisations;
+    }
+
+    public function addLocalisation(Localisation $localisation): static
+    {
+        if (!$this->localisations->contains($localisation)) {
+            $this->localisations->add($localisation);
             $localisation->setPackage($this);
         }
 
-        $this->localisation = $localisation;
+        return $this;
+    }
+
+    public function removeLocalisation(Localisation $localisation): static
+    {
+        if ($this->localisations->removeElement($localisation)) {
+            // set the owning side to null (unless already changed)
+            if ($localisation->getPackage() === $this) {
+                $localisation->setPackage(null);
+            }
+        }
 
         return $this;
     }

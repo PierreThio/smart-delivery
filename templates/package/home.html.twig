@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout d'un colis{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-center flex-column align-items-center">
+    <h1>{% block h1 %}Ajour d'un colis{% endblock %}</h1>
+      {{form_start(form)}}
+      {{form_widget(form)}}
+      {{form_end(form)}}
+</div>
+{% endblock %}

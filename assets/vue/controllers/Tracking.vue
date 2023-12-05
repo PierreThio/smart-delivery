@@ -1,0 +1,61 @@
+<script>
+export default {
+    data(){
+        return{
+            package: {},
+            localisation:{}
+        }
+    },
+    mounted(){
+        this.fetchData();
+        setInterval(() => {
+            this.fetchData();
+        }, 60000);
+    },
+    methods:{
+        async fetchData(){
+            try {
+                const response = await fetch(`/api/tracking/${this.trackingNumber}`);
+                const data = await response.json();
+                this.package = data;     
+                
+                await Promise.all(
+                    this.package.localisations.map(async (loc) => {
+                        loc.localisation = await this.getLocalisation(loc);
+                    })
+                );
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données: ", error);
+            }
+        },
+        async getLocalisation(localisation) {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${localisation.latitude}&lon=${localisation.longitude}&zoom=10`);
+                const data = await response.json();
+                return data; // Retourner directement les données de localisation
+            } catch (error) {
+                console.error(
+                "Erreur lors de la récupération des données de localisation: ",
+                error
+                );
+                return null; // Gérer les erreurs de manière appropriée
+            }
+        },
+    }
+}
+</script>
+<template>
+    <h2>{{package.trackingNumber}}</h2>
+
+    <div v-for="localisation in package.localisations">
+        <strong>{{ localisation.step.wording }}</strong>
+        <p>{{ localisation.timestamp }}</p>
+        <p>{{ localisation.localisation['address']['country'] }} {{ localisation.localisation['address']['state'] }} {{ localisation.localisation['address']['city'] }} {{ localisation.localisation['address']['town'] }} {{ localisation.localisation['address']['village'] }}</p>
+    </div>
+</template>
+
+<script setup>
+    defineProps({
+        trackingNumber: String
+    });
+</script>

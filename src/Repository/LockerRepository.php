@@ -20,7 +20,7 @@ class LockerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Locker::class);
     }
-
+    
 //    /**
 //     * @return Locker[] Returns an array of Locker objects
 //     */

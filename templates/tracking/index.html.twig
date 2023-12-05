@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Suivi de colis{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-center flex-column align-items-center">
+    <h1>{% block h1 %}Suivre un colis{% endblock %}</h1>
+    <div {{ vue_component('Tracking', { 'trackingNumber': trackingNumber }) }}></div>
+</div>
+{% endblock %}

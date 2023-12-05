@@ -18,7 +18,7 @@ class Step
     #[ORM\Column(length: 255)]
     private ?string $wording = null;
 
-    #[ORM\ManyToMany(targetEntity: Localisation::class, inversedBy: 'steps')]
+    #[ORM\OneToMany(mappedBy: 'step', targetEntity: Localisation::class)]
     private Collection $localisations;
 
     public function __construct()
@@ -55,6 +55,7 @@ class Step
     {
         if (!$this->localisations->contains($localisation)) {
             $this->localisations->add($localisation);
+            $localisation->setStep($this);
         }
 
         return $this;
@@ -62,7 +63,12 @@ class Step
 
     public function removeLocalisation(Localisation $localisation): static
     {
-        $this->localisations->removeElement($localisation);
+        if ($this->localisations->removeElement($localisation)) {
+            // set the owning side to null (unless already changed)
+            if ($localisation->getStep() === $this) {
+                $localisation->setStep(null);
+            }
+        }
 
         return $this;
     }

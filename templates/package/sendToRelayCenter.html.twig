@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout d'un colis{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-center flex-column align-items-center">
+    <h1>{% block h1 %}Ajour d'un colis{% endblock %}</h1>
+      {{form_start(form)}}
+      {{form_widget(form)}}
+      {{form_end(form)}}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var pointRelaisSelect = document.getElementById('package_relayCenter');
+
+  pointRelaisSelect.addEventListener('change', function() {
+    var pointRelaisId = this.value; // Obtenez l'ID du point relais sélectionné
+
+    // Requête AJAX pour obtenir les casiers disponibles
+    fetch('/api/relay-center/available-lockers/' + pointRelaisId)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        var casierSelect = document.getElementById('package_locker');
+        casierSelect.innerHTML = ''; // Videz les options existantes
+        var option = document.createElement('option')
+        option.textContent = "Select a locker";
+        casierSelect.appendChild(option);
+
+        // Remplissez le select de casiers avec les nouvelles options
+        data.forEach(function(casier) {
+          var option = document.createElement('option');
+          option.value = casier.id;
+          option.textContent = casier.lockerNumber;
+          casierSelect.appendChild(option);
+        });
+      });
+  });
+});
+</script>
+
+{% endblock %}

@@ -19,9 +19,6 @@ class Locker
     private ?int $locker_number = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $address = null;
-
-    #[ORM\Column(length: 255)]
     private ?string $status = null;
 
     #[ORM\Column]
@@ -54,18 +51,6 @@ class Locker
     public function setLockerNumber(int $locker_number): static
     {
         $this->locker_number = $locker_number;
-
-        return $this;
-    }
-
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(string $address): static
-    {
-        $this->address = $address;
 
         return $this;
     }
@@ -146,5 +131,22 @@ class Locker
         $this->user = $user;
 
         return $this;
+    }
+
+    public function getAvailableVolume(){
+        $totalVolume = 0;
+        foreach($this->getPackages() as $package){
+            $totalVolume += $package->getVolume();
+        }
+
+        return $this->volume - $totalVolume;
+    }
+
+    public function enoughVolumeChecker(?Package $package){
+        if($package->getVolume() > $this->getAvailableVolume()){
+            return false;
+        } else {
+            return true;
+        }
     }
 }
