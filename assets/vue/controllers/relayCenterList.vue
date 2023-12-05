@@ -58,7 +58,6 @@ export default {
         },
         async updateRelayCenter(relayCenter){
             try {
-                const reponse = await fetch(`/points-relais/${relayCenter.id}/update`);
                 const route = `/points-relais/${relayCenter.id}/update`;
                 window.location.href = route;
             } catch (error) {

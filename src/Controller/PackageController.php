@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use PHLAK\StrGen;
 
 class PackageController extends AbstractController
 {
@@ -28,15 +27,17 @@ class PackageController extends AbstractController
         $form = $this->createForm(PackageType::class, $package);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $generator = new StrGen\Generator();
             do {
-                $trackingNumber = $generator->length(10)->charset([StrGen\CharSet::UPPER_ALPHA, StrGen\CharSet::NUMERIC])->generate();
+                $trackingNumber = $package->generateTrackingNumber();
             } while ($repository->findBy(['tracking_number' => $trackingNumber]) != null);
-            $package->setTrackingNumber($trackingNumber);
-            $package->setUser($this->getUser());
-            $entityManager->persist($package);
-            $entityManager->flush();
-            return $this->redirectToRoute('app_home');
+            if($package->getLocker()->enoughVolumeChecker($package)){
+                $package->setTrackingNumber($trackingNumber);
+                $package->setUser($this->getUser());
+                dd($package);
+                $entityManager->persist($package);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_home');
+            }
         }
 
         return $this->render('package/sendToRelayCenter.html.twig', [
@@ -51,9 +52,8 @@ class PackageController extends AbstractController
         $form = $this->createForm(PackageAtHomeType::class, $package);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $generator = new StrGen\Generator();
             do {
-                $trackingNumber = $generator->length(10)->charset([StrGen\CharSet::UPPER_ALPHA, StrGen\CharSet::NUMERIC])->generate();
+                $trackingNumber = $package->generateTrackingNumber();
             } while ($repository->findBy(['tracking_number' => $trackingNumber]) != null);
             $package->setTrackingNumber($trackingNumber);
             $package->setUser($this->getUser());

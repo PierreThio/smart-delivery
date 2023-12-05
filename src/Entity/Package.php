@@ -6,6 +6,7 @@ use App\Repository\PackageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use PHLAK\StrGen;
 
 #[ORM\Entity(repositoryClass: PackageRepository::class)]
 class Package
@@ -131,5 +132,10 @@ class Package
         }
 
         return $this;
+    }
+
+    public function generateTrackingNumber(){
+        $generator = new StrGen\Generator();
+        return $generator->length(10)->charset([StrGen\CharSet::UPPER_ALPHA, StrGen\CharSet::NUMERIC])->generate();
     }
 }

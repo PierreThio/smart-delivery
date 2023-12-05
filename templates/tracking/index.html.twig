@@ -6,5 +6,10 @@
 <div class="d-flex justify-content-center flex-column align-items-center">
     <h1>{% block h1 %}Suivre un colis{% endblock %}</h1>
     <div {{ vue_component('Tracking', { 'trackingNumber': trackingNumber }) }}></div>
+    {% if role is defined %}
+        {% if role == 'ADMIN' %}
+            <a href={{path("app_dashboard_tracking_localisation", {'tracking_number': trackingNumber})}} class="btn btn-primary">Ajouter une localisation</a>
+        {% endif %}
+    {% endif %}
 </div>
 {% endblock %}

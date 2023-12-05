@@ -5,6 +5,7 @@
             <table class="table-bordered col-9">
                 <thead>
                     <tr>
+                        <th>Numéro de suivi</th>
                         <th>Volume</th>
                         <th>Poids</th>
                         <th>Destination</th>
@@ -13,6 +14,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="p in packages">
+                        <th>{{ p.trackingNumber }}</th>
                         <th>{{ p.volume }}m²</th>
                         <th>{{ p.weight }}kg</th>
                         <th v-if="p.locker == null">{{ p.user.city }} {{ p.user.address }} {{ p.user.postalCode }}</th>

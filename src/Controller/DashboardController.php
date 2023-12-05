@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Package;
 use App\Entity\RelayCenter;
 use App\Entity\User;
 use App\Form\RelayCenterType;
@@ -62,6 +63,14 @@ class DashboardController extends AbstractController
         return $this->render('dashboard/user/index.html.twig', [
             'controller_name' => 'DashboardController',
             'user' => $user,
+        ]);
+    }
+
+    #[Route('/dashboard/tracking/localisation/{tracking_number}', name: 'app_dashboard_tracking_localisation')]
+    public function addLocalisation(Package $package): Response
+    {
+        return $this->render('/dashboard/tracking/localisation.html.twig', [
+            'trackingNumber' => $package->getTrackingNumber()
         ]);
     }
 }

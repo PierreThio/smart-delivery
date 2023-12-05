@@ -135,7 +135,7 @@ class Locker
 
     public function getAvailableVolume(){
         $totalVolume = 0;
-        foreach($this->getPackages() as $package){
+        foreach($this->packages as $package){
             $totalVolume += $package->getVolume();
         }
 

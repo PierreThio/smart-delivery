@@ -38,7 +38,21 @@ class ApiController extends AbstractController
         $var = $this->security->getUser();
         $response = new Utils;
         $tab = ["lockers","packages", "relayCenter", "notifications"];
-        return $response->GetJsonResponse($request, $var,$tab);
+        return $response->GetJsonResponse($request, $var, $tab);
+    }
+
+    #[Route('/api/userIsAdmin', name: 'app_api_user_is_admin')]
+    public function userIsAdmin(Request $request): Response
+    {
+        $user = $this->security->getUser();
+        if($this->isGranted('ROLE_ADMIN')){
+            $var = true;
+        } else{
+            $var = false;
+        }
+        $response = new Utils;
+        $tab = ["lockers","packages", "relayCenter", "notifications"];
+        return $response->GetJsonResponse($request, $var, $tab);
     }
 
     #[Route('/api/package', name: 'app_api_package')]
