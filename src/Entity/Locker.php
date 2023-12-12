@@ -139,7 +139,7 @@ class Locker
             $totalVolume += $package->getVolume();
         }
 
-        return $this->volume - $totalVolume;
+        return ($this->volume - $totalVolume)>=0 ? $this->volume - $totalVolume : 0;
     }
 
     public function enoughVolumeChecker(?Package $package){

@@ -138,4 +138,13 @@ class Package
         $generator = new StrGen\Generator();
         return $generator->length(10)->charset([StrGen\CharSet::UPPER_ALPHA, StrGen\CharSet::NUMERIC])->generate();
     }
+
+    public function getLastLocalisation(){
+        $iterator = $this->localisations->getIterator();
+        $iterator->uasort(function (Localisation $a, Localisation $b) {
+            return $a->getTimestamp() > $b->getTimestamp() ? 1 : -1;
+        });
+        $localisations = new ArrayCollection(iterator_to_array($iterator));
+        return $localisations->last() ? $localisations->last() : null;
+    }
 }

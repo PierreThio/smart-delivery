@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+<div class="container d-flex justify-content-center align-items-center flex-column">
+    <h1>Mes commandes<h1>
+    <div {{vue_component('OrderList')}}></div>
+</div>
+{% endblock %}

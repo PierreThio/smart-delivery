@@ -166,4 +166,27 @@ class RelayCenter
 
         return $this;
     }
+
+    public function getAvailableLockers(){
+        $availableLockers = new ArrayCollection();
+        foreach($this->lockers as $locker){
+            if($locker->getStatus() == "Available"){
+                $availableLockers->add($locker);
+            }
+        }
+        return $availableLockers;
+    }
+
+    public function getRecommendedLocker(){
+        $emptiestLocker = $this->getAvailableLockers()->first();
+        if($emptiestLocker == null){
+            return null;
+        }
+        foreach($this->getAvailableLockers() as $locker){
+            if($locker->getAvailableVolume() > $emptiestLocker->getAvailableVolume()){
+                $emptiestLocker = $locker;
+            }
+        }
+        return $emptiestLocker;
+    }
 }

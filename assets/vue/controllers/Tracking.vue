@@ -41,6 +41,11 @@ export default {
                 return null; // Gérer les erreurs de manière appropriée
             }
         },
+        count(array){
+            var count = 0;
+            for (var a in array) count++;
+            return count;
+        }
     }
 }
 </script>
@@ -51,6 +56,9 @@ export default {
         <strong>{{ localisation.step.wording }}</strong>
         <p>{{ localisation.timestamp }}</p>
         <p>{{ localisation.localisation['address']['country'] }} {{ localisation.localisation['address']['state'] }} {{ localisation.localisation['address']['city'] }} {{ localisation.localisation['address']['town'] }} {{ localisation.localisation['address']['village'] }}</p>
+    </div>
+    <div v-if="count(this.package.localisations) == 0">
+        <p>Il n'y a pas encore d'information sur ce colis</p>
     </div>
 </template>
 

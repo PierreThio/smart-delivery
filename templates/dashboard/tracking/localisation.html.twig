@@ -5,5 +5,8 @@
 {% block body %}
 <div class="d-flex justify-content-center flex-column align-items-center">
     <h1>{% block h1 %}Ajouter une localisation au colis {{ trackingNumber }}{% endblock %}</h1>
+    {{form_start(form)}}
+    {{form_widget(form)}}
+    {{form_end(form)}}
 </div>
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+<div class="container d-flex justify-content-center align-items-center flex-column">
+
+    {% if user.relayCenter %}
+    <h1>Modifier votre point relais<h1>
+    {% else %}
+    <h1>Ajouter un point relais<h1>
+    {% endif %}
+    
+    <div>
+        {{form_start(form)}}
+        {{form_widget(form)}}
+        {{form_end(form)}}
+    </div>
+
+</div>
+{% endblock %}

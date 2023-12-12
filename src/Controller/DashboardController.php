@@ -2,15 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Localisation;
+use App\Entity\Notification;
 use App\Entity\Package;
 use App\Entity\RelayCenter;
 use App\Entity\User;
+use App\Form\LocalisationType;
 use App\Form\RelayCenterType;
+use App\Repository\NotificationContentRepository;
+use App\Repository\NotificationReceptionModeRepository;
+use App\Repository\NotificationRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Notifier\Test\Constraint\NotificationCount;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -67,10 +75,34 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/dashboard/tracking/localisation/{tracking_number}', name: 'app_dashboard_tracking_localisation')]
-    public function addLocalisation(Package $package): Response
+    public function addLocalisation(Package $package, Request $request, EntityManagerInterface $entityManager, NotificationContentRepository $contentRepository, NotificationReceptionModeRepository $receptionModeRepository): Response
     {
+        $localisation = new Localisation;
+
+        $form = $this->createForm(LocalisationType::class, $localisation);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $localisation->setPackage($package);
+            $localisation->setTimestamp(new DateTime());
+            if($package->getLastLocalisation() !== null && $package->getLastLocalisation()->getStep()->getWording() != $localisation->getStep()->getWording()){
+                $notification = new Notification;
+                $notification->setUser($this->security->getUser());
+                $notification->setTimestamp(new DateTime());
+                $notification->setNotificationReceptionMode($receptionModeRepository->findOneBy(['reception_mode' => "website"]));
+                $notification->setNotificationContent($contentRepository->findOneBy(['content' => "Votre colis à changé d'état"]));
+                $notification->setChecked(false);
+                $entityManager->persist($notification);
+            }
+            $entityManager->persist($localisation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_tracking', ['tracking_number' => $package->getTrackingNumber()]);
+        }
+
         return $this->render('/dashboard/tracking/localisation.html.twig', [
-            'trackingNumber' => $package->getTrackingNumber()
+            'trackingNumber' => $package->getTrackingNumber(),
+            'form' => $form,
         ]);
     }
 }

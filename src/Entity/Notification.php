@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\NotificationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: NotificationRepository::class)]
@@ -15,69 +14,82 @@ class Notification
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $timestamp = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $reception_mode = null;
+    #[ORM\ManyToOne(inversedBy: 'notifications')]
+    private ?User $user = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'notifications')]
-    private Collection $users;
+    #[ORM\ManyToOne(inversedBy: 'notifications')]
+    private ?NotificationReceptionMode $notification_reception_mode = null;
 
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'notifications')]
+    private ?NotificationContent $notification_content = null;
+
+    #[ORM\Column]
+    private ?bool $checked = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getTimestamp(): ?\DateTimeInterface
     {
-        return $this->type;
+        return $this->timestamp;
     }
 
-    public function setType(string $type): static
+    public function setTimestamp(\DateTimeInterface $timestamp): static
     {
-        $this->type = $type;
+        $this->timestamp = $timestamp;
 
         return $this;
     }
 
-    public function getReceptionMode(): ?string
+    public function getUser(): ?User
     {
-        return $this->reception_mode;
+        return $this->user;
     }
 
-    public function setReceptionMode(string $reception_mode): static
+    public function setUser(?User $user): static
     {
-        $this->reception_mode = $reception_mode;
+        $this->user = $user;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
+    public function getNotificationReceptionMode(): ?NotificationReceptionMode
     {
-        return $this->users;
+        return $this->notification_reception_mode;
     }
 
-    public function addUser(User $user): static
+    public function setNotificationReceptionMode(?NotificationReceptionMode $notification_reception_mode): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-        }
+        $this->notification_reception_mode = $notification_reception_mode;
 
         return $this;
     }
 
-    public function removeUser(User $user): static
+    public function getNotificationContent(): ?NotificationContent
     {
-        $this->users->removeElement($user);
+        return $this->notification_content;
+    }
+
+    public function setNotificationContent(?NotificationContent $notification_content): static
+    {
+        $this->notification_content = $notification_content;
+
+        return $this;
+    }
+
+    public function isChecked(): ?bool
+    {
+        return $this->checked;
+    }
+
+    public function setChecked(bool $checked): static
+    {
+        $this->checked = $checked;
 
         return $this;
     }

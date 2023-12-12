@@ -4,13 +4,17 @@
 
 {% block body %}
 <div class="d-flex justify-content-center flex-column align-items-center">
-    <h1>{% block h1 %}Ajour d'un colis{% endblock %}</h1>
+    <h1>{% block h1 %}Ajout d'un colis{% endblock %}</h1>
       {{form_start(form)}}
       {{form_widget(form)}}
       {{form_end(form)}}
 </div>
 
 <script>
+document.getElementById('package_locker').innerHTML = '';
+var option = document.createElement('option')
+option.textContent = "Select a locker";
+document.getElementById('package_locker').appendChild(option);
 document.addEventListener('DOMContentLoaded', function() {
   var pointRelaisSelect = document.getElementById('package_relayCenter');
 

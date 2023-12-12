@@ -37,7 +37,7 @@ class ApiController extends AbstractController
     {
         $var = $this->security->getUser();
         $response = new Utils;
-        $tab = ["lockers","packages", "relayCenter", "notifications"];
+        $tab = ["lockers","packages"];
         return $response->GetJsonResponse($request, $var, $tab);
     }
 
@@ -59,6 +59,16 @@ class ApiController extends AbstractController
     public function getAllPackages(Request $request, PackageRepository $repository): Response
     {
         $var = $repository->findAll();
+        $response = new Utils;
+        $tab = ["localisation"];
+        return $response->GetJsonResponse($request, $var,$tab);
+    }
+
+    #[Route('/api/user/package', name: 'app_api_user_package')]
+    public function getUserPackages(Request $request): Response
+    {
+        $user = $this->security->getUser();
+        $var = $user->getPackages();
         $response = new Utils;
         $tab = ["localisation"];
         return $response->GetJsonResponse($request, $var,$tab);
@@ -100,6 +110,14 @@ class ApiController extends AbstractController
     public function getTrackedPackage(Package $package, Request $request): Response
     {
         $var = $package;
+        $response = new Utils;
+        return $response->GetJsonResponse($request, $var);
+    }
+
+    #[Route('/api/package/{id}/status', name: 'app_api_package_status')]
+    public function getPackageStatus(Package $package, Request $request): Response
+    {
+        $var = $package->getLastLocalisation() ? $package->getLastLocalisation()->getStep()->getWording() : null;
         $response = new Utils;
         return $response->GetJsonResponse($request, $var);
     }
