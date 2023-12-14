@@ -1,30 +1,36 @@
 <template>
-    <div class="d-flex justify-content-center flex-column">
-        <h1 class="text-center">Disponibilité des casiers</h1>
-        <div class="" v-for="relayCenter in relayCenters">
-            <h2>{{ relayCenter.city }} {{ relayCenter.address }} {{ relayCenter.postalCode   }}</h2>
-            <p v-if="count(relayCenter.lockers) == 0">Aucun casier disponible pour ce point relais</p>
-            <table v-if="count(relayCenter.lockers) != 0" class="table-bordered col-12">
-                <thead>
-                    <tr>
-                        <th>Numéro du casier</th>
-                        <th>Disponibilité</th>
-                        <th>Volume disponible</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="locker in relayCenter.lockers">
-                        <td>{{ locker.lockerNumber }}</td>
-                        <td class="d-flex justify-content-between" v-if="locker.status == 'Available'"><span class="badge bg-success">Disponible</span><button v-if="user" @click="updateLocker(locker)" type="button" class="btn btn-primary">Réservé</button></td>
-                        <td v-if="locker.status == 'Unavailable'"><span class="badge bg-danger">Indisponible</span></td>
-                        <th v-if="locker.status == 'Available'">{{locker.availableVolume}}</th>
-                        <th v-if="locker.status == 'Unavailable'">0</th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Disponibilité des casiers</h1>
+  
+      <div v-for="relayCenter in relayCenters" :key="relayCenter.id">
+        <h2>{{ relayCenter.city }} {{ relayCenter.address }} {{ relayCenter.postalCode }}</h2>
+        
+        <p v-if="count(relayCenter.lockers) === 0" class="mb-4">Aucun casier disponible pour ce point relais</p>
+  
+        <table v-if="count(relayCenter.lockers) > 0" class="table table-bordered col-12">
+          <thead>
+            <tr>
+              <th>Numéro du casier</th>
+              <th>Disponibilité</th>
+              <th>Volume disponible</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="locker in relayCenter.lockers" :key="locker.lockerNumber">
+              <td>{{ locker.lockerNumber }}</td>
+              <td class="d-flex justify-content-between">
+                <span v-if="locker.status === 'Available'" class="badge bg-success">Disponible</span>
+                <button v-if="user && locker.status === 'Available'" @click="updateLocker(locker)" type="button" class="btn btn-primary">Réservé</button>
+                <span v-if="locker.status === 'Unavailable'" class="badge bg-danger">Indisponible</span>
+              </td>
+              <td>{{ locker.status === 'Available' ? locker.availableVolume : 0 }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-</template>
+  </template>
+  
 <script>
 export default {
     data(){

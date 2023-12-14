@@ -1,45 +1,79 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}Profil de l'utilisateur{% endblock %}
 
 {% block body %}
-    <div class="ms-5">
-        <label class="fw-bold">Nom:</label>
-        <p>{{user.name}}</p>
+    <div class="container mt-5">
+        <h1 class="mb-4">Profil de l'utilisateur {{user.name}} {{user.firstname}}</h1>
 
-        <label class="fw-bold">Prénom:</label>
-        <p>{{user.firstname}}</p>
-
-        <label class="fw-bold">Email:</label>
-        <p>{{user.email}}</p>
-
-        <label class="fw-bold">Numéro de téléphone:</label>
-        <p>{{user.phoneNumber}}</p>
-
-        <label class="fw-bold">Adresse:</label>
-        <p>{{user.address}}</p>
-
-        <label class="fw-bold">Ville:</label>
-        <p>{{user.city}}</p>
-
-        <label class="fw-bold">Code postal:</label>
-        <p>{{user.postalCode}}</p>
-
-        <label class="fw-bold">Colis:</label>
-        {% for package in user.packages %}
-            <ul>
-                <li class="fw-bold">{{package.id}}</li>
-            </ul>
-        {% endfor %}
-
-        {# <label>Centre relais par défauts:</label> #}
-        {# <p>{{user.relayCenter.id}}</p> #}
-
-        <label class="fw-bold">Casier réservés:</label>
-        {% for locker in user.lockers %}
-        <ul>
-            <li>{{locker.id}}</li>
-        </ul>
-        {% endfor %}
+        <div class="ms-5">
+            <table class="table">
+                <tr>
+                    <th scope="row">Nom</th>
+                    <td>{{ user.name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Prénom</th>
+                    <td>{{ user.firstname }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Numéro de téléphone</th>
+                    <td>{{ user.phoneNumber }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Adresse</th>
+                    <td>{{ user.address }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Ville</th>
+                    <td>{{ user.city }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Code postal</th>
+                    <td>{{ user.postalCode }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Colis</th>
+                    <td class="col mx-auto">
+                        <ul>
+                            {% set halfPackages = user.packages|length / 2 %}
+                            {% for package in user.packages|slice(0, halfPackages)|reverse %}
+                                <li>{{ package.id }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td class="col mx-auto">
+                        <ul>
+                            {% for package in user.packages|slice(halfPackages)|reverse %}
+                                <li>{{ package.id }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                {# ... Autres lignes de code ... #}
+                <tr>
+                    <th scope="row">Casiers réservés</th>
+                    <td class="col mx-auto">
+                        <ul>
+                            {% set halfLockers = user.lockers|length / 2 %}
+                            {% for locker in user.lockers|slice(0, halfLockers)|reverse %}
+                                <li>{{ locker.id }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td class="col mx-auto">
+                        <ul>
+                            {% for locker in user.lockers|slice(halfLockers)|reverse %}
+                                <li>{{ locker.id }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 {% endblock %}

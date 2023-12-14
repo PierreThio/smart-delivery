@@ -1,29 +1,37 @@
 <template>
-    <div class="d-flex justify-content-center flex-column align-items-center">
-        <h1 class="text-center">Liste des points relais</h1>
-        <div class="overflow-auto d-flex w-100 justify-content-center" style="height: 250px;">
-            <table class="table-bordered col-9 overflow-auto">
-                <thead>
-                    <tr>
-                        <th>Ville</th>
-                        <th>Adresse</th>
-                        <th>Code postal</th>
-                        <th>Nombre de casier</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="relayCenter in relayCenters">
-                        <th>{{ relayCenter.city }}</th>
-                        <th>{{ relayCenter.address }}</th>
-                        <th>{{ relayCenter.postalCode }}</th>
-                        <th>{{ count(relayCenter.lockers) }}</th>
-                        <th class="d-flex justify-content-around"><button @click="deleteRelayCenter(relayCenter)" type="button" class="btn btn-danger">Supprimer</button><button @click="updateRelayCenter(relayCenter)" type="button" class="btn btn-warning">Modifier</button></th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Liste des points relais</h1>
+  
+      <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Ville</th>
+              <th>Adresse</th>
+              <th>Code postal</th>
+              <th>Nombre de casier</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="relayCenter in relayCenters" :key="relayCenter.id">
+              <td>{{ relayCenter.city }}</td>
+              <td>{{ relayCenter.address }}</td>
+              <td>{{ relayCenter.postalCode }}</td>
+              <td>{{ count(relayCenter.lockers) }}</td>
+              <td>
+                <div class="btn-group" role="group">
+                  <button @click="deleteRelayCenter(relayCenter)" type="button" class="btn btn-danger">Supprimer</button>
+                  <button @click="updateRelayCenter(relayCenter)" type="button" class="btn btn-warning">Modifier</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-</template>
+  </template>
+  
 <script>
 export default {
     data(){

@@ -3,19 +3,32 @@
 {% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
-<div class="container d-flex justify-content-center align-items-center flex-column">
+    <div class="container d-flex justify-content-center align-items-center flex-column">
 
-    {% if user.relayCenter %}
-    <h1>Modifier votre point relais<h1>
-    {% else %}
-    <h1>Ajouter un point relais<h1>
-    {% endif %}
-    
-    <div>
-        {{form_start(form)}}
-        {{form_widget(form)}}
-        {{form_end(form)}}
+        {% if user.relayCenter %}
+            <h1>Modifier votre point relais</h1>
+        {% else %}
+            <h1>Ajouter un point relais</h1>
+        {% endif %}
+
+        <div class="mt-4 w-50">
+            {{ form_errors(form) }}
+            
+            {{ form_start(form) }}
+
+            <div class="mb-3">
+                {{ form_row(form.relayCenter, {
+                    'label': 'Point relais',
+                    'attr': {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="text-center mt-3">
+                {{ form_row(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+
     </div>
-
-</div>
 {% endblock %}

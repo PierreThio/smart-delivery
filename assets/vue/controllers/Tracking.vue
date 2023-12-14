@@ -50,17 +50,35 @@ export default {
 }
 </script>
 <template>
-    <h2>{{package.trackingNumber}}</h2>
+    <div class="container mt-2 mb-5 text-center">
+        <h2 class="display-5">{{ package.trackingNumber }}</h2>
 
-    <div v-for="localisation in package.localisations">
-        <strong>{{ localisation.step.wording }}</strong>
-        <p>{{ localisation.timestamp }}</p>
-        <p>{{ localisation.localisation['address']['country'] }} {{ localisation.localisation['address']['state'] }} {{ localisation.localisation['address']['city'] }} {{ localisation.localisation['address']['town'] }} {{ localisation.localisation['address']['village'] }}</p>
-    </div>
-    <div v-if="count(this.package.localisations) == 0">
-        <p>Il n'y a pas encore d'information sur ce colis</p>
+        <div v-for="localisation in package.localisations" class="mt-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>{{ localisation.step.wording }}</strong></h5>
+                    <p class="card-text">{{ localisation.timestamp }}</p>
+                    <p class="card-text">
+                        {{ localisation.localisation['address']['country'] }}
+                        {{ localisation.localisation['address']['state'] }}
+                        {{ localisation.localisation['address']['city'] }}
+                        {{ localisation.localisation['address']['town'] }}
+                        {{ localisation.localisation['address']['village'] }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="count(package.localisations) === 0" class="mt-4">
+            <div class="alert alert-info" role="alert">
+                <p>Il n'y a pas encore d'information sur ce colis.</p>
+            </div>
+        </div>
     </div>
 </template>
+
+
+
 
 <script setup>
     defineProps({

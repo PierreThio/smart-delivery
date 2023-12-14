@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8937ad88a83f1c76b63cd8876435b589",
+    "content-hash": "b39598f2e21017498e13d84bc96c8dab",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -6151,31 +6151,32 @@
         },
         {
             "name": "symfony/stimulus-bundle",
-            "version": "v2.12.0",
+            "version": "v2.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stimulus-bundle.git",
-                "reference": "e0e19de8df4d5b2bed57328ae69ef7904df660c7"
+                "reference": "40a4416e6d8da7deb18a75bb9b8e7ce955cf653d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/stimulus-bundle/zipball/e0e19de8df4d5b2bed57328ae69ef7904df660c7",
-                "reference": "e0e19de8df4d5b2bed57328ae69ef7904df660c7",
+                "url": "https://api.github.com/repos/symfony/stimulus-bundle/zipball/40a4416e6d8da7deb18a75bb9b8e7ce955cf653d",
+                "reference": "40a4416e6d8da7deb18a75bb9b8e7ce955cf653d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
-                "symfony/config": "^5.4|^6.0",
-                "symfony/dependency-injection": "^5.4|^6.0",
-                "symfony/finder": "^5.4|^6.0",
-                "symfony/http-kernel": "^5.4|^6.0",
+                "symfony/config": "^5.4|^6.0|^7.0",
+                "symfony/dependency-injection": "^5.4|^6.0|^7.0",
+                "symfony/deprecation-contracts": "^2.0|^3.0",
+                "symfony/finder": "^5.4|^6.0|^7.0",
+                "symfony/http-kernel": "^5.4|^6.0|^7.0",
                 "twig/twig": "^2.15.3|^3.4.3"
             },
             "require-dev": {
-                "symfony/asset-mapper": "^6.3",
-                "symfony/framework-bundle": "^5.4|^6.0",
-                "symfony/phpunit-bridge": "^5.4|^6.0",
-                "symfony/twig-bundle": "^5.4|^6.0",
+                "symfony/asset-mapper": "^6.3|^7.0",
+                "symfony/framework-bundle": "^5.4|^6.0|^7.0",
+                "symfony/phpunit-bridge": "^5.4|^6.0|^7.0",
+                "symfony/twig-bundle": "^5.4|^6.0|^7.0",
                 "zenstruck/browser": "^1.4"
             },
             "type": "symfony-bundle",
@@ -6199,7 +6200,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/stimulus-bundle/tree/v2.12.0"
+                "source": "https://github.com/symfony/stimulus-bundle/tree/v2.13.3"
             },
             "funding": [
                 {
@@ -6215,7 +6216,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-28T18:00:50+00:00"
+            "time": "2023-11-30T20:29:09+00:00"
         },
         {
             "name": "symfony/stopwatch",

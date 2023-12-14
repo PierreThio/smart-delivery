@@ -3,17 +3,43 @@
 {% block title %}Ajout d'un colis{% endblock %}
 
 {% block body %}
-<div class="d-flex justify-content-center flex-column align-items-center">
-    <h1>{% block h1 %}Ajout d'un colis{% endblock %}</h1>
-      {{form_start(form)}}
-      {{form_widget(form)}}
-      {{form_end(form)}}
+    <div class="container d-flex justify-content-center align-items-center flex-column">
 
-      {% if error is defined %}
-      <div class="alert alert-warning">
-        <strong>Erreur!</strong>{{error}}
-      </div>
-      {% endif %}
-      
-</div>
+        <h1 class="mb-4">Ajout d'un colis</h1>
+
+        <div class="w-50">
+            {{ form_start(form) }}
+
+            <div class="mb-3">
+                {{ form_row(form.weight, {
+                    'attr': {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(form.volume, {
+                    'attr': {'class': 'form-control'}
+                }) }}
+            </div>
+
+            <div class="mb-3 d-flex justify-content-start align-items-center max-width-50">
+                {{ form_row(form.destination, {
+                    'attr': {'class': 'form-check-input d-flex w-100'}
+                }) }}
+            </div>
+
+            <div class="text-center mt-3">
+                {{ form_row(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+            </div>
+
+            {{ form_end(form) }}
+
+            {% if error is defined %}
+                <div class="alert alert-warning mt-3">
+                    <strong>Erreur!</strong> {{ error }}
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
 {% endblock %}

@@ -96,7 +96,7 @@ export default {
             return false;
         },  
         async checkNotification(notification){
-            try {
+            try {   
                 const response = await fetch(`/profil/notification/${notification.id}/check`);                
             } catch (error) {
                 console.error("Erreur lors de la mise à jour des données: ", error);

@@ -14,7 +14,7 @@ class TrackingNumberType extends AbstractType
     {
         $builder
             ->add('tracking_number', SearchType::class, ['label' => 'Numéro de suivi'])
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, ['attr' => ['label' => 'Recherch'], 'label' => 'Rechercher'])
         ;
     }
 
