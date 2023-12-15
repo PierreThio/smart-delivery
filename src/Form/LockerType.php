@@ -6,6 +6,7 @@ use App\Entity\Locker;
 use App\Entity\RelayCenter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,12 +17,8 @@ class LockerType extends AbstractType
         $relayCenter = $options['relayCenter'] ?? null;
 
         $builder
-            ->add('locker', EntityType::class, [
-                'class' => Locker::class,
-                'choice_label' => 'locker_number',
-                'placeholder' => 'Select a locker',
-                'choices' => $relayCenter ? $relayCenter->getLockers() : [],
-            ]);
+            ->add('volume')
+            ->add('submit', SubmitType::class)
         ;
     }
 

@@ -121,4 +121,12 @@ class ApiController extends AbstractController
         $response = new Utils;
         return $response->GetJsonResponse($request, $var);
     }
+
+    #[Route('/api/centre-relais/{id}/lockers', name: 'app_api_package_status')]
+    public function getLockers(RelayCenter $relayCenter, Request $request): Response
+    {
+        $var = $relayCenter->getLockers() ? $relayCenter->getLockers() : null;
+        $response = new Utils;
+        return $response->GetJsonResponse($request, $var);
+    }
 }

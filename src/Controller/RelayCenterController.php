@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Locker;
 use App\Entity\RelayCenter;
+use App\Form\LockerType;
 use App\Form\RelayCenterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,6 +62,37 @@ class RelayCenterController extends AbstractController
         return $this->render('dashboard/relay_center/update.html.twig', [
             'controller_name' => 'DashboardController',
             'relayCenterForm' => $form->createView(),
+        ]);
+    }
+    #[Route('/points-relais/{id}/add/locker', name: 'app_relay_center_update')]
+    public function addLocker(RelayCenter $relayCenter, Request $request, EntityManagerInterface $entityManager)
+    {
+        $locker = new Locker;
+
+        $form = $this->createForm(LockerType::class, $locker);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $locker->setStatus('Available');
+            $locker->setLockerNumber($relayCenter->getLockers()->count()+1);
+            $locker->setRelayCenter($relayCenter);
+            $relayCenter->addLocker($locker);
+            $entityManager->persist($locker);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('app_dashboard');
+        }
+
+        return $this->render('dashboard/relay_center/addLocker.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/points-relais/{id}', name: 'app_relay_center')]
+    public function checkLockers(RelayCenter $relayCenter): Response
+    {
+        return $this->render('dashboard/relay_center/lockers.html.twig', [
+            'relayCenter' => $relayCenter
         ]);
     }
 }

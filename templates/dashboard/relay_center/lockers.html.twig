@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Centre relais{% endblock %}
+
+{% block body %}
+<div class="container d-flex justify-content-center align-items-center flex-column">
+    <h1>Centre relais n°{{relayCenter.id}}<h1>
+    <div {{vue_component('LockerList', {'relayCenter': relayCenter.id})}}></div>
+    <a class="btn btn-primary" href={{path("app_dashboard")}}>Retour au tableau de bord</a>
+</div>
+{% endblock %}
